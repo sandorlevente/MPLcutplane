@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+	version 2.0;
+	format binary;
+	class dictionary;
+	location "";
+	object controlDict;
+}
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+application simpleFoam;
+
+startFrom latestTime;
+
+startTime	0;
+
+stopAt endTime;
+
+endTime	5000.;
+
+deltaT 	1.;
+
+writeControl timeStep;
+
+writeInterval	100;
+
+purgeWrite	2;
+
+writeFormat	binary;
+
+writePrecision	6;
+
+writeCompression	off;
+
+timeFormat	general;
+
+timePrecision	6;
+
+runTimeModifiable true;
+
+
+functions
+{
+
+
+#includeFunc yPlus;
+#includeFunc Q;
+#includeFunc vorticity;
+#includeFunc wallShearStress;
+
+#include "postproc"
+
+}

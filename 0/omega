@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volScalarField;
+    location    "0";
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform  0.14;
+
+boundaryField
+{
+    body
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    front_axis
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    front_refinement
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    front_wheel
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    ground
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    inlet
+    {
+        type            turbulentMixingLengthFrequencyInlet;
+        mixingLength    0.1044;
+        value           $internalField;
+    }
+    outlet
+    {
+    //  CAUTION causes divergence in pimple
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
+
+    }
+    rear_axis
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    rear_refinement
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    rear_wheel
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+    side
+    {
+        type            symmetry;
+    }
+    symmetry
+    {
+        type            symmetry;
+    }
+    top
+    {
+        type            symmetry;
+    }
+}
+
+
+// ************************************************************************* //

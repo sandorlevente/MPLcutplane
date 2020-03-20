@@ -1,0 +1,137 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    body
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    front_axis
+    {
+    
+        type            rotatingWallVelocity;
+        origin          (0.162 0 0.051);
+        axis            (0 1 0);
+        omega           -105.5;   //(RPM/60)*2*PI=rPs
+    
+    
+        //type            fixedValue;
+        //value           uniform (0 0 0);
+    }
+    front_refinement
+    {
+        
+        type            rotatingWallVelocity;
+        origin          (0.162 0 0.051);
+        axis            (0 1 0);
+        omega           -105.5;   //(RPM/60)*2*PI=rPs
+        
+
+        //type            fixedValue;
+        //value           uniform (0 0 0);
+    }
+    front_wheel
+    {
+        
+        type            rotatingWallVelocity;
+        origin          (0.162 0 0.051);
+        axis            (0 1 0);
+        omega           -105.5;   //(RPM/60)*2*PI=rPs
+        
+
+        //type            fixedValue;
+        //value           uniform (0 0 0);
+    }
+    ground
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (5.7 0 0);
+    }
+    outlet
+    {
+    
+        type            inletOutlet;
+        inletValue      uniform (0 0 0);
+        value           $internalField;
+    
+        //type            zeroGradient;
+    }
+    rear_axis
+    {
+        
+        type            rotatingWallVelocity;
+        origin          (0.621 0 0.051);
+        axis            (0 1 0);
+        omega           -105.5;   //(RPM/60)*2*PI=rPs
+        
+
+        //type            fixedValue;
+        //value           uniform (0 0 0);
+    }
+    rear_refinement
+    {
+        
+        
+        type            rotatingWallVelocity;
+        origin          (0.621 0 0.051);
+        axis            (0 1 0);
+        omega           -105.5;   //(RPM/60)*2*PI=rPs
+        
+
+        //type            fixedValue;
+        //value           uniform (0 0 0);
+    }
+    rear_wheel
+    {
+        
+        
+        type            rotatingWallVelocity;
+        origin          (0.621 0 0.051);
+        axis            (0 1 0);
+        omega           -105.5;   //(RPM/60)*2*PI=rPs
+        
+
+        //type            fixedValue;
+        //value           uniform (0 0 0);
+    }
+    side
+    {
+        type            symmetry;
+    }
+    symmetry
+    {
+        type            symmetry;
+    }
+    top
+    {
+        type            symmetry;
+    }
+}
+
+
+// ************************************************************************* //

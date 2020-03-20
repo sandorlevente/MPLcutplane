@@ -1,0 +1,94 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volScalarField;
+    location    "0";
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField    uniform 0.003;
+
+boundaryField
+{
+    body
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    front_axis
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    front_refinement
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    front_wheel
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    ground
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    inlet
+    {
+        type            turbulentIntensityKineticEnergyInlet;
+        intensity       0.008;
+        value           $internalField;
+    }
+    outlet
+    {
+    //  CAUTION causes divergence in pimple
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
+    
+
+    }
+    rear_axis
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    rear_refinement
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    rear_wheel
+    {
+        type            fixedValue;
+        value           uniform 1e-12;
+    }
+    side
+    {
+        type            symmetry;
+    }
+    symmetry
+    {
+        type            symmetry;
+    }
+    top
+    {
+        type            symmetry;
+    }
+}
+
+
+// ************************************************************************* //

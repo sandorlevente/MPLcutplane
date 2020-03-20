@@ -1,0 +1,522 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+//writeControl    timeStep;
+//writeInterval   1000;
+
+body_force
+{
+    type            forces;
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    writeInterval   1000;
+
+    log             yes;
+
+    patches         (body);
+    //patches         ("body" "front_axis" "front_wheel" "rear_axis" "rear_wheel");
+    rho             rhoInf;         // Indicates incompressible
+    rhoInf          1;              // Redundant for incompressible
+    liftDir         (0 0 1);
+    dragDir         (1 0 0);
+    CofR            (0.72 0 0);     // Axle midpoint on ground (center of rotation)
+    pitchAxis       (0 0 1);
+    magUInf         5.7;
+    lRef            0.783;          // body length
+    Aref            0.032697;      // with wheel
+
+}
+
+all_force
+{
+    type            forces;
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    writeInterval   1000;
+
+    log             yes;
+
+    //patches         (body);
+    patches         ("body" "front_axis" "front_wheel" "rear_axis" "rear_wheel");
+    rho             rhoInf;         // Indicates incompressible
+    rhoInf          1;              // Redundant for incompressible
+    liftDir         (0 0 1);
+    dragDir         (1 0 0);
+    CofR            (0.72 0 0);     // Axle midpoint on ground (center of rotation)
+    pitchAxis       (0 0 1);
+    magUInf         5.7;
+    lRef            0.783;          // body length
+    Aref            0.032697;      // with wheel
+
+}
+
+frwheel_force
+{
+    type            forces;
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    writeInterval   1000;
+
+    log             yes;
+
+    //patches         (body);
+    patches         ("front_wheel");
+    rho             rhoInf;         // Indicates incompressible
+    rhoInf          1;              // Redundant for incompressible
+    liftDir         (0 0 1);
+    dragDir         (1 0 0);
+    CofR            (0.72 0 0);     // Axle midpoint on ground (center of rotation)
+    pitchAxis       (0 0 1);
+    magUInf         5.7;
+    lRef            0.783;          // body length
+    Aref            0.032697;      // with wheel
+
+}
+
+rewheel_force
+{
+    type            forces;
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    writeInterval   1000;
+
+    log             yes;
+
+    //patches         (body);
+    patches         ("rear_wheel");
+    rho             rhoInf;         // Indicates incompressible
+    rhoInf          1;              // Redundant for incompressible
+    liftDir         (0 0 1);
+    dragDir         (1 0 0);
+    CofR            (0.72 0 0);     // Axle midpoint on ground (center of rotation)
+    pitchAxis       (0 0 1);
+    magUInf         5.7;
+    lRef            0.783;          // body length
+    Aref            0.032697;      // with wheel
+
+}
+
+
+probes
+{
+    // Where to load it from
+    type        probes;
+    libs            ("libsampling.so");
+
+    // Name of the directory for probe data
+    name        probes;
+
+    writeControl    timeStep;
+    writeInterval   1000;
+
+    // Fields to be probed
+    fields (p U k omega);
+
+    probeLocations
+    (
+        ( -0.085 0. 0.78 )         // at center of the motor bike mask
+        (  0.5   0. 1.351)         // at top of the helmet
+        (  1.745 0. 1.01 )         // at tail of the motorbike
+
+    );
+}
+
+cuttingPlanes
+{
+    type            surfaces;
+    libs            ("libsampling.so");
+
+    surfaceFormat   vtk;
+    interpolationScheme cellPoint;
+    triangulate     true;
+
+    writeControl    timeStep;
+    writeInterval   1000;
+    //outputControl			outputTime;
+	//outputInterval		1;
+
+    fields       (p U k vorticity Q);
+/*
+    x (1 0 0);
+    y (0 1 0);
+    z (0 0 1);
+    origin (0 0 0);
+*/
+
+surfaces
+(
+    T00
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.092 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+
+    T01
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.110 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T02
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.137 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T03
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.164 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T04
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.191 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T05
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.218 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T07
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.236 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T08
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.266 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T09
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.296 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T10
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.326 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T12
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.386 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T13
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.446 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+    T14
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0.506 0 0);
+            normalVector (1 0 0);
+        }
+        interpolate  true;
+    }
+
+
+
+
+
+    mV03
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.086 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    mV02
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.098 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    mV01
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.128 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    V01
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.154 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    V02
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.164 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    V03
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.174 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    V04
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.184 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    V05
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.194 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }
+    V06
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.204 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }    
+    V07
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 -0.214 0);
+            normalVector (0 1 0);
+        }
+        interpolate  true;
+    }   
+
+    H01
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 0 0.008);
+            normalVector (0 0 1);
+        }
+        interpolate  true;
+    }
+    H02
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 0 0.018);
+            normalVector (0 0 1);
+        }
+        interpolate  true;
+    }
+    H03
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 0 0.038);
+            normalVector (0 0 1);
+        }
+        interpolate  true;
+    }
+    H04
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 0 0.048);
+            normalVector (0 0 1);
+        }
+        interpolate  true;
+    }
+    H05
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 0 0.078);
+            normalVector (0 0 1);
+        }
+        interpolate  true;
+    }
+    H06
+    {
+        type         cuttingPlane;
+        planeType    pointAndNormal;
+        pointAndNormalDict
+        {
+            basePoint    (0 0 0.105);
+            normalVector (0 0 1);
+        }
+        interpolate  true;
+    }
+
+);
+
+}
+
+
+isoSurfaces
+{
+    type            surfaces;
+    libs            ("libsampling.so");
+
+    surfaceFormat   vtk;
+    interpolationScheme cellPoint;
+
+    writeControl    timeStep;
+    writeInterval   1000;
+    //outputControl   	outputTime;
+	//outputInterval		1;
+
+    fields       (p);
+
+surfaces
+(
+    isosurface
+    {
+        type            isoSurface;
+        interpolate     true;
+        isoField    p;
+        isoValue    1;
+    }
+);
+
+
+
+}
+
+
+
+
+// ************************************************************************* //
